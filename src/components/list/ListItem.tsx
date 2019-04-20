@@ -1,11 +1,33 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import fetchData from '../../utils/fetchData';
-class ListItem extends Component {
+import {IFavorite, IPlace} from "../../store/types";
+import {Dispatch} from "redux";
+import {ISetFavoriteAction} from "../../store/actions";
+import * as actions from '../../utils/fetchData';
+const mapStateToProps = (props:IPlace) => {
+    return props;
+}
+const mapDispatcherToProps = (dispatch: Dispatch<ISetFavoriteAction>) => {
+    return {
+        setFavorite:(_favorite:IFavorite)=>{
+            actions.setFavorite(dispatch,_favorite);
+        }
+    }
+}
 
-    setFavorite(e){
+type ReduxType = ReturnType<typeof mapDispatcherToProps>&ReturnType<typeof mapStateToProps>;
+
+
+
+class ListItem extends Component<ReduxType> {
+
+    public setFavorite(e:any){
         e.preventDefault();
-        this.props.onSetFavorite({isFavorite:!this.props.isFavorite, id:this.props.id});
+        let favorite:IFavorite = {
+            id:this.props.id,
+            isFavorite:!this.props.isFavorite
+        };
+        this.props.setFavorite(favorite);
     }
 
     render() {
@@ -42,26 +64,4 @@ class ListItem extends Component {
         );
     }
 }
-
-export default connect(
-    state=>({}),
-    dispatch=>({
-        onSetFavorite:(_favorite)=>{
-            dispatch(()=>{
-              let options = {
-                  method: 'PATCH',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                      isFavorite: _favorite.isFavorite
-                  })
-              }
-              return fetchData("list/"+_favorite.id, options)
-                  .then((response) => {
-                      dispatch({type:"ON_SET_FAVORITE",favorite:_favorite});
-                  })
-          })
-        }
-    })
-)(ListItem);
+export default connect(mapStateToProps,mapDispatcherToProps)(ListItem);

@@ -23,7 +23,7 @@
     {
       "href": "shop_full.html",
       "title": "Рыбный мир3",
-      "isFavorite": false,
+      "isFavorite": true,
       "points": "4,3",
       "avatar": "img/shop_avatar_70x70x2.png",
       "description": "Свежые продукты и морепродукты",
@@ -43,7 +43,7 @@
     {
       "href": "shop_full.html",
       "title": "Рыбный мир5",
-      "isFavorite": false,
+      "isFavorite": true,
       "points": "4,3",
       "avatar": "img/shop_avatar_70x70x2.png",
       "description": "Свежые продукты и морепродукты",
